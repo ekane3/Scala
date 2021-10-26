@@ -1,0 +1,17 @@
+[0m[[0m[31merror[0m] [0m[0mC:\Users\Emile\OneDrive - Efrei\Bureau\ECOLE\Functional programming with scala\TP_MR\src\main\scala\TP_MR.scala:142:66: too many arguments (2) for method foldLeft: (z: B)(op: (B, Double) => B)B[0m
+[0m[[0m[31merror[0m] [0m[0m      val (total,count) = values.foldLeft(iterator.empty[Double],0)({ case ((total,count),elem) => (total+elem, count+1) })[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                 ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\Emile\OneDrive - Efrei\Bureau\ECOLE\Functional programming with scala\TP_MR\src\main\scala\TP_MR.scala:142:107: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : Any[0m
+[0m[[0m[31merror[0m] [0m[0m required: String[0m
+[0m[[0m[31merror[0m] [0m[0m      val (total,count) = values.foldLeft(iterator.empty[Double],0)({ case ((total,count),elem) => (total+elem, count+1) })[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                                          ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\Emile\OneDrive - Efrei\Bureau\ECOLE\Functional programming with scala\TP_MR\src\main\scala\TP_MR.scala:142:119: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : Int(1)[0m
+[0m[[0m[31merror[0m] [0m[0m required: String[0m
+[0m[[0m[31merror[0m] [0m[0m      val (total,count) = values.foldLeft(iterator.empty[Double],0)({ case ((total,count),elem) => (total+elem, count+1) })[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                                                      ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\Emile\OneDrive - Efrei\Bureau\ECOLE\Functional programming with scala\TP_MR\src\main\scala\TP_MR.scala:143:17: value / is not a member of Any[0m
+[0m[[0m[31merror[0m] [0m[0m      Some(total/count)[0m
+[0m[[0m[31merror[0m] [0m[0m                ^[0m
+[0m[[0m[31merror[0m] [0m[0mfour errors found[0m

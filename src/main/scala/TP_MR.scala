@@ -19,7 +19,7 @@ object TP_MR {
    * Do this to check your answer after each exercise
    */
 
-  def giveMeHelloString : String = ???
+  def giveMeHelloString : String = "Hello"
 
   /**
    * 1) Find the last elements of a list.
@@ -30,10 +30,21 @@ object TP_MR {
    */
 
   //TODO define lastA using : match, case, ::, Nil
-  def lastA[T](list: List[T]): Option[T] = ???
+  def lastA[T](list: List[T]): Option[T] = list match{
+
+    case Nil => None
+    case x::Nil => Some(x)
+    case x::tail => lastA(tail)
+
+  }
 
   //TODO define lastB using method of the List collection
-  def lastB[T](list: List[T]): Option[T] = ???
+  def lastB[T](list: List[T]): Option[T] = list match {
+    
+    case Nil => None
+    case x::tail => Some(list.last)
+
+  }
 
   /**
    * 2) Find the Kth element of a list:
@@ -45,11 +56,27 @@ object TP_MR {
    */
 
   //TODO define nthA using : match, case, ::, Nil
-  def nthA[T](x: Int, l: List[T]): Option[T] = ???
+  def nthA[T](x: Int, l: List[T]): Option[T] = (x,l) match {
+    //Cas d'une liste vide
+    case (_, Nil) => None
+    //Cas d'une liste vide mais k=0
+    case (0,x::_) => Some(x)
+    //Cas d'une liste vide mais k#0
+    case (x, head::tail) if x>0 => nthA(x-1,tail)
+    //Cas de k<0
+    case (x, _::tail) if x<0 => None
+  }
 
 
   //TODO define nthB using method of the List collection
-  def nthB[T](x: Int, l: List[T]): Option[T] = ???
+  def nthB[T](x: Int, l: List[T]): Option[T] = {
+
+    if (x > 0 && x < l.length) 
+      Some(l(x)) 
+    else 
+      None
+
+  }
 
   /**
    * 3) Reverse a list:
@@ -60,10 +87,11 @@ object TP_MR {
    */
 
   //TODO define reverseA using : foldLeft, ::
-  def reverseA[T](list: List[T]): List[T] = ???
+  def reverseA[T](list: List[T]): List[T] = list.foldLeft(List.empty[T])((acc, el) => el:: acc)
+ 
 
   //TODO define reverseB using method of the List collection
-  def reverseB[T](list: List[T]): List[T] = ???
+  def reverseB[T](list: List[T]): List[T] = list.reverse
 
   /**
    * 4) Sum of wages:
@@ -78,8 +106,7 @@ object TP_MR {
 
   //TODO define salarySum which is the sum of the salaries from a list of employees
   //Hint it's a map reduce
-  def salarySum(employees: List[Employee]): Double = ???
-
+  def salarySum(employees: List[Employee]): Double = employees.map(_.salary).sum
 
   /**
    * 5) Address list:
@@ -93,20 +120,31 @@ object TP_MR {
   case class User(name: String, address: String)
 
   //TODO define addressOf which gives a list of addresses from a list of users
-  def addressOf(users: List[User]): List[String] = ???
+  def addressOf(users: List[User]): List[String] = users.map(_.address)
 
   /**
    * 6) Define the average function (without .toList, or duplicates):
    *
    * Example:
    * scala> average(Iterator(1, 2, 3, 4, 5, 6, 7, 8))
-   * res0: Option[Double] = Some(4.5)
+   * res0: Option[Double] = Some(4.5) 
    */
 
   //TODO define average which takes an Iterator of Double in parameter.
-  //you can't use size, lengeth …
+  //you can't use size, length …
   //You can't use toList, toIterable, to whatever …
-  def average(values: Iterator[Double]): Option[Double] = ???
+  // values.foldLeft(iterator.empty[Double])( (acc,el) => )
+  def average(values: Iterator[Double]): Option[Double] = {
+    //Si la liste est vide on retourne rien sinon on calcule
+    if ( values.isEmpty){
+      None
+    }else{
+      val (total,count) = values.foldLeft(0.0,0)({ case ((total,count),elem) => (total+elem, count+1) })
+      Some(total.toDouble /count)
+    }
+    
+  }
+ 
 
   /**
    * 7) Monoids and almost MapReduce
@@ -162,7 +200,7 @@ object TP_MR {
     val rows: Iterable[Array[String]] =
       data.map { line =>
         //TODO cleaning line and separate fields by the comma character
-        val row: Array[String] = ???
+        val row: Array[String] = line.trim.split(",")
 
         // cleansing: if fields are missing, we pad row with empty strings
         row.padTo(7, "")
@@ -171,11 +209,12 @@ object TP_MR {
     // we want an Iterable consisting of the pair Departement and Rating
     val deptRatings: Iterable[(String, Double)] =
       //TODO we remove lines with no departement
-      ???
+      
         //then we map the creation of the tuple, just uncomment
-        /*.map(fields =>
+       rows.filter( e=> !e.isEmpty)
+        .map(fields =>
           (fields(6), Try { fields(1).toDouble }.getOrElse(0.0))
-        )*/
+        )
 
     deptRatings
       .groupBy { case (departement, rating) => departement }
@@ -228,20 +267,20 @@ object TP_MR {
 
   // TODO Monoid (Int, +, 0)
   implicit val intMonoid: Monoid[Int] = new Monoid[Int] {
-    override def empty: Int = ???
+    override def empty: Int = ??? //0
     override def combine(a: Int, b: Int): Int = ???
   }
 
   // TODO Monoid (Double, +, 0.0)
   implicit val doubleMonoid: Monoid[Double] = new Monoid[Double] {
-    override def empty: Double = ???
+    override def empty: Double = ??? //0.0
     override def combine(a: Double, b: Double): Double = ???
   }
 
   // TODO turn any tuple (A, B) into Monoid, providing A and B both are Monoid
   implicit def tupleMonoid[A: Monoid, B: Monoid]: Monoid[(A, B)] =
     new Monoid[(A, B)] {
-      override def empty: (A, B) = ???
+      override def empty: (A, B) = ??? // (0,0)
 
       override def combine(left: (A, B), right: (A, B)): (A, B) =
         ???
