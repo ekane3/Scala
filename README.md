@@ -3,6 +3,6 @@
   - go to File -> New -> Project from Existing Sources...
   - select the folder TP_MR or the file build.sbt
 
-2) Do not hesitate to ask questions
+2) Open the command line and run sbt test.
 
 # Scala
