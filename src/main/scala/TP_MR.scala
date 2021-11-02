@@ -87,7 +87,7 @@ object TP_MR {
    */
 
   //TODO define reverseA using : foldLeft, ::
-  def reverseA[T](list: List[T]): List[T] = list.foldLeft(List.empty[T])((acc, el) => el:: acc)
+  def reverseA[T](list: List[T]): List[T] = list.foldLeft(List.empty[T])( (acc, el) => el:: acc)
  
 
   //TODO define reverseB using method of the List collection
@@ -108,6 +108,8 @@ object TP_MR {
   //Hint it's a map reduce
   def salarySum(employees: List[Employee]): Double = employees.map(_.salary).sum
 
+  def salarySumB(employees: List[Employee]): Double = employees.foldLeft(0.0) { (acc, elem) => acc + elem.salary }
+
   /**
    * 5) Address list:
    * With the case class User defined below, list the all their addresses
@@ -121,6 +123,7 @@ object TP_MR {
 
   //TODO define addressOf which gives a list of addresses from a list of users
   def addressOf(users: List[User]): List[String] = users.map(_.address)
+  def addressOfB(users:List[User]): List[String] = users.foldRight(List.empty[String])( (acc,elem) => elem.address::acc )
 
   /**
    * 6) Define the average function (without .toList, or duplicates):
@@ -192,7 +195,7 @@ object TP_MR {
    */
   import scala.util.Try
 
-  // we want to get an Map where the key is departement and the value an iterable of all the ratings of that departement
+  // we want to get a Map where the key is departement and the value an iterable of all the ratings of that departement
   def getRatingsByDepartement(lines: Iterable[String]): Map[String, Iterable[Double]] = {
     // drop CSV header
     val data: Iterable[String] = lines.drop(1)
@@ -211,9 +214,8 @@ object TP_MR {
       //TODO we remove lines with no departement
       
         //then we map the creation of the tuple, just uncomment
-       rows.filter( e=> !e.isEmpty)
-        .map(fields =>
-          (fields(6), Try { fields(1).toDouble }.getOrElse(0.0))
+       rows.filter( e=> !e.isEmpty).map(
+         fields => (fields(6), Try { fields(1).toDouble }.getOrElse(0.0))
         )
 
     deptRatings
@@ -267,23 +269,22 @@ object TP_MR {
 
   // TODO Monoid (Int, +, 0)
   implicit val intMonoid: Monoid[Int] = new Monoid[Int] {
-    override def empty: Int = ??? //0
-    override def combine(a: Int, b: Int): Int = ???
+    override def empty: Int = 0 //??? 
+    override def combine(a: Int, b: Int): Int = a + b //???
   }
 
   // TODO Monoid (Double, +, 0.0)
   implicit val doubleMonoid: Monoid[Double] = new Monoid[Double] {
-    override def empty: Double = ??? //0.0
-    override def combine(a: Double, b: Double): Double = ???
+    override def empty: Double = 0.0 // ??? 
+    override def combine(a: Double, b: Double): Double = a + b //??
   }
 
   // TODO turn any tuple (A, B) into Monoid, providing A and B both are Monoid
   implicit def tupleMonoid[A: Monoid, B: Monoid]: Monoid[(A, B)] =
     new Monoid[(A, B)] {
-      override def empty: (A, B) = ??? // (0,0)
+      override def empty: (A, B) = (Monoid[A].empty, Monoid[B].empty) //??? 
 
-      override def combine(left: (A, B), right: (A, B)): (A, B) =
-        ???
+      override def combine(left: (A, B), right: (A, B)): (A, B) = (Monoid[A].combine(left._1,right._1),Monoid[B].combine(left._2,right._2)  )
     }
 
   /**
@@ -311,16 +312,13 @@ object TP_MR {
      */
 
     // TODO phase 1 (Map): get ratings only and associate the value 1 to the rating (create a pair (rating,1))
-    val partitionedRatingWithOne: MapView[String, Iterable[(Double, Int)]] =
-      ???
+    val partitionedRatingWithOne: MapView[String, Iterable[(Double, Int)]] = partitions.mapValues(ratings => ratings.map( rating => (rating,1) ) )
 
     // TODO phase 2 (Combine): locally sum ratings and 1s for each partition
-    val partitionedSumRatingsAndCount: MapView[String, (Double, Int)] =
-      ???
+    val partitionedSumRatingsAndCount: MapView[String, (Double, Int)] = partitionedRatingWithOne.mapValues( data => data.combineAll)
 
     // TODO phase 3 (Reduce): combine for all partitions the sum of ratings and counts
-    val (rating, count) : (Double,Int) =
-      ???
+    val (rating, count) : (Double,Int) = partitionedSumRatingsAndCount.values.combineAll
 
     rating / count
   }
