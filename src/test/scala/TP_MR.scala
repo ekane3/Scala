@@ -69,7 +69,7 @@ class TP_MapReduce_Test extends org.scalatest.FunSuite {
   }
 
   test("monoid") {
-    assert((skiRatingAverage*100).round/100.0 == 4.41)
+    assert((skiRatingAverage*100).round/100.0 == 4.45)
   }
 
 }

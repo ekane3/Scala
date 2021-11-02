@@ -123,7 +123,7 @@ object TP_MR {
 
   //TODO define addressOf which gives a list of addresses from a list of users
   def addressOf(users: List[User]): List[String] = users.map(_.address)
-  def addressOfB(users:List[User]): List[String] = users.foldRight(List.empty[String])( (acc,elem) => elem.address::acc )
+  //def addressOfB(users:List[User]): List[String] = users.foldRight(List.empty[String])( (acc,elem) => elem.address::acc )
 
   /**
    * 6) Define the average function (without .toList, or duplicates):
