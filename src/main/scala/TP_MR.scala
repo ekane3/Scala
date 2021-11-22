@@ -148,9 +148,128 @@ object TP_MR {
     
   }
  
+  /**
+   * 7) Eliminate consecutive duplicates of list elements.
+   *If a list contains repeated elements they should be replaced with a single copy of the element. The
+   *order of the elements should not be changed.
+   *Example:
+   *scala> compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+   *res0: List[Symbol] = List('a, 'b, 'c, 'a, 'd, 'e)
+   */
+  
+  //TODO define compress which eliminates consecutive duplicates of list elements
+  def compress[T](list: List[T]): List[T] = {
+    list match {
+      case Nil => Nil
+      case x::Nil => List(x)
+      case x::y::tail => if (x==y) compress(y::tail) else x::compress(y::tail)
+    }
+  }
+  /**
+    * 8) Run-length encoding of a list.
+    *Consecutive duplicates of elements are encoded as tuples (N, E) where N is the number of
+    *duplicates of the element E.
+    *Example:
+    *scala> encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+    *res0: List[(Int, Symbol)] = List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
+  */
+  //TODO define encode which encodes a list of elements
+  def encode[T](list: List[T]): List[(Int,T)] = {
+    list match {
+      case Nil => Nil
+      case x::Nil => List((1,x))
+      case x::y::tail => if (x==y) (1+encode(y::tail).head._1,x)::encode(y::tail).tail else (1,x)::encode(y::tail)
+    }
+  }
 
   /**
-   * 7) Monoids and almost MapReduce
+   * 9) Modified run-length encoding.
+   * Modify the result of problem P08 in such a way that if an element has no duplicates it is simply copied into the result list.
+   * Only elements with duplicates are transferred as (N, E) terms.
+   * Example:
+    * scala> encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+    * res0: List[Any] = List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e))
+    * Note: the solution should not look at the elements in the list but should create a new list.
+    */
+  //TODO define encodeModified which encodes a list of elements
+  def encodeModified[T](list: List[T]): List[Any] = {
+    list match {
+      case Nil => Nil
+      case x::Nil => List(x)
+      case x::y::tail => if (x==y) (1+encodeModified(y::tail).head._1,x)::encodeModified(y::tail).tail else (1,x)::encodeModified(y::tail)
+    }
+  }
+
+  /**
+   * 10) Run-length encoding of a list (direct solution).
+   * Implement the so-called run-length encoding data compression method directly.
+   * I.e. don't use other methods you've written (like P09's pack) to solve this problem.
+   * Example:
+   * scala> encodeDirect(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+   * res0: List[(Int, Symbol)] = List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e))
+   */
+  //TODO define encodeDirect which encodes a list of elements
+  def encodeDirect[T](list: List[T]): List[(Int,T)] = {
+    list match {
+      case Nil => Nil
+      case x::Nil => List((1,x))
+      case x::y::tail => if (x==y) (1+encodeDirect(y::tail).head._1,x)::encodeDirect(y::tail).tail else (1,x)::encodeDirect(y::tail)
+    }
+  }
+
+  /**
+   * 11) Decode a run-length encoded list.
+   * Given a run-length code list generated as specified in problem P09, construct its uncompressed version.
+   * Example:
+    * scala> decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e)))
+    * res0: List[Symbol] = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    * Note: the solution should not look at the elements in the list but should create a new list.
+  */
+  //TODO define decode which decodes a list of elements
+  def decode[T](list: List[(Int,T)]): List[T] = {
+    list match {
+      case Nil => Nil
+      case x::Nil => List.fill(x._1)(x._2)
+      case x::y::tail => List.fill(x._1)(x._2):::decode(y::tail)
+    }
+  }
+
+
+
+  /**
+   * 12) Find the penultimate (last but one) element of a list .
+   * Example:
+   * scala> penultimate(List(1, 1, 2, 3, 5, 8))
+   * res0: Option[Int] = Some(5)
+   */
+  //TODO define penultimate which returns the penultimate element of a list
+  def penultimate[T](list: List[T]): Option[T] = {
+    list match {
+      case Nil => None
+      case x::Nil => None
+      case x::y::Nil => Some(x)
+      case x::y::tail => penultimate(y::tail)
+    }
+  }
+
+  /**
+   * 2) Find the length/ number of elements of a list.
+Example:
+scala> length(List(1, 1, 2, 3, 5, 8))
+res0: Int = 6
+*/
+  //TODO define length which returns the length of a list
+  def length[T](list: List[T]): Int = {
+    list match {
+      case Nil => 0
+      case x::Nil => 1
+      case x::y::tail => 1+length(y::tail)
+    }
+  }
+   
+
+  /**
+   * 1) Monoids and almost MapReduce
    *
    * /////////////////////
    * Extract from an article :

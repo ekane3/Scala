@@ -1,3 +1,25 @@
 [0m[[0m[0mdebug[0m] [0m[0m> Exec(test, Some(1c81ffc7-145b-41c4-97c2-3a69808c5644), Some(CommandSource(console0)))[0m
 [0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Test / test[0m
 [0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to C:\Users\Emile\OneDrive - Efrei\Bureau\ECOLE\Functional programming with scala\TP_MR\target\scala-2.13\test-classes ...[0m
+[0m[[0m[33mwarn[0m] [0m[0mthere was one deprecation warning (since 3.1.0); re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mTP_MapReduce_Test:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- giveMeHelloString function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- lastA function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- lastB function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- nthA function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- nthB function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- reverseA function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- reverseB function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- salarySum function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- addressOf function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- average function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- monoid[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 176 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 11[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 1, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 11, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
+[0m[[0m[32msuccess[0m] [0m[0mTotal time: 1 s, completed 2 nov. 2021 11:28:48[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m
